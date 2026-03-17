@@ -1,5 +1,6 @@
 import { Model } from 'sequelize'
 import moment from 'moment'
+import { Review } from './models'
 
 const loadModel = (sequelize, DataTypes) => {
   class Restaurant extends Model {
@@ -22,7 +23,10 @@ const loadModel = (sequelize, DataTypes) => {
     }
 
     async getAvgStars () {
-
+      const avg = await Review.avg(
+        'stars', { where: { restaurantId: this.id } } // HAY QUE PONER EL WHERE PARA QUE LO HAGA DE UN RESTAURANTE CONCRETO
+      )
+      return avg
     }
   }
 
